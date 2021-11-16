@@ -1,34 +1,57 @@
 class CalcController {
 
     constructor(){
-
-        this._displayCalc = "0";
+        this._locale = 'pt-br'
+        this._displayCalcEl  = document.querySelector("#display");
+        this._dateEl  = document.querySelector("#data");
+        this._timeEL  = document.querySelector("#hora");
         this._currentDate;
         this.initialize();
     }
 
     initialize(){
-        let displayCalcEl  = document.querySelector("#display");
-        let dateEl  = document.querySelector("#data");
-        let timeEL  = document.querySelector("#hora");
 
-        displayCalcEl.innerHTML = "4567";
-        dateEl.innerHTML = "12/11/2021";
-        timeEL.innerHTML = "6:onibus";
+        this.setDisplayDateTime();
+    
+        setInterval(()=>{
+
+            this.setDisplayDateTime();
+
+        }, 1000)
+
+    }
+
+    setDisplayDateTime(){
+        this.displayDate = this.currentDate.toLocaleDateString(this._locale);
+        this.displayTime = this.currentDate.toLocaleTimeString(this._locale);
+    }
+
+    get displayTime(){
+        return this._timeEL.innerHTML;
+    }
+    set displayTime(value){
+        return this._timeEL.innerHTML = value;
+    }
+
+    get displayDate(){
+        return this._dateEl.innerHTML;
+    }
+    set displayDate(value){
+        return this._dateEl.innerHTML = value;
     }
 
     get displayCalc(){
-        return this._displayCalc;
+        return this._displayCalcEl;
     }
-    set displayCalc(valor){
-        this._displayCalc = valor;
+    set displayCalc(value){
+        this._displayCalcEl.innerHTML = value;
     }
 
-    get dataAutal(){
-        return this._currentDate;
+    get currentDate(){
+        return new Date();
     }
-    set dataAutal(valor){
-        this._dataAtual = valor;
+    set currentDate(value){
+        this._currentDate = value;
     }
 
 }
