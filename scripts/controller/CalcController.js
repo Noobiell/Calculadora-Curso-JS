@@ -53,13 +53,36 @@ class CalcController {
         return (['+', '-', '*', '%', '/'].indexOf(value) > -1);// O INDEXOFF PESQUISA O VALOR DENTRO DO ARRAI E VERIFICA SE EXISTE LÁ, SE EXISTE ELE TRAZ A POSIÇÃO DO ARRAY
     }
 
+    pushOperation(value){
+        this._operation.push(value);
+
+        if(this._operation.length > 3){
+
+            this.calc();
+        }
+    }
+
+    calc(){
+        let last = this._operation.pop();
+
+        let result = eval(this._operation.join(""));
+
+        this._operation = [result, last];
+    }
+
+    setLastNumberToDisplay(){
+
+        
+
+    }
+
     addOperator(value){
 
         if(isNaN(this.getLastOperation())){
             //quando string
             if(this.isOperator(value)){
                 //trocar o operador
-                this.setLastOperation() = value;
+                this.setLastOperation(value);
 
             }else if(isNaN(value)){
                 
@@ -68,17 +91,27 @@ class CalcController {
 
             }else{
 
-                this._operation.push(value);
+                this.pushOperation(value);
 
             }
         }else{
-            //quando numero
-            let newValue = this.getLastOperation().toString() + value.toString();
-            this.setLastOperation(parseInt(newValue));
-        }
 
-        console.log(this._operation);
-    }
+            if (this.isOperator(value)){
+
+                this.pushOperation(value);
+
+            }else{
+                //quando numero
+                let newValue = this.getLastOperation().toString() + value.toString();
+                this.setLastOperation(parseInt(newValue));
+
+                //atualizar display
+
+                this.setLastNumberToDisplay();
+
+            }
+        }
+            }
 
     setError(){
         this.displayCalc = "Error";
